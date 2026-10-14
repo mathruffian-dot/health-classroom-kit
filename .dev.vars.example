@@ -1,0 +1,17 @@
+# Copy to .dev.vars only when configuring local cloud/AI integration.
+# .dev.vars is ignored by Git. Never put real secrets in wrangler.jsonc.
+APP_MODE="demo"
+APP_INSTANCE="default"
+ALLOW_PUBLIC_DEMO="false"
+# Production mode requires all following settings; it never falls back to demo.
+# APP_MODE="supabase"
+# SUPABASE_URL="https://YOUR-PROJECT.supabase.co"
+# SUPABASE_PUBLISHABLE_KEY="YOUR_PUBLISHABLE_KEY"
+# SUPABASE_SECRET_KEY="YOUR_SERVER_ONLY_SECRET_KEY"
+# SESSION_SECRET="GENERATE_A_RANDOM_SECRET_AT_LEAST_32_CHARACTERS"
+# TEACHER_EMAILS="teacher@example.edu"
+# Optional OpenAI-compatible server-side AI adapter.
+# AI_API_KEY="YOUR_PROVIDER_KEY"
+# AI_BASE_URL="https://api.openai.com/v1"
+# AI_MODEL="YOUR_PROVIDER_MODEL_ID"
+AI_DAILY_LIMIT="20"
