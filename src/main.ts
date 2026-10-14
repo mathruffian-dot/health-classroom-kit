@@ -16,7 +16,7 @@ import demo from '../content/demo.json';
 import QRCode from 'qrcode';
 
 const app = document.querySelector<HTMLDivElement>('#app')!;
-let config: AppConfig = { mode: 'demo', aiConfigured: false, version: '0.1.0' };
+let config: AppConfig = { mode: 'demo', aiConfigured: false, version: '0.1.1' };
 let user: User | null = null,
   dashboard: Dashboard | null = null,
   view: SessionView | null = null;

@@ -8,7 +8,7 @@
 2. `shared/types.ts`、`schemas/lesson.schema.json`：教材及資料契約。
 3. `docs/AUTHORING.md`、`docs/HTML-BRIDGE.md`：填課及 HTML 擴充。
 4. 涉及後端時讀 `docs/ARCHITECTURE.md`、`docs/SECURITY.md`、`worker/` 與 `supabase/`。
-5. 需要部署才讀 `docs/DEPLOYMENT.md`；不要為了填教材啟用雲端或消耗 AI 額度。
+5. 需要部署時，先讀 `docs/SUPABASE-AGENT-SETUP.md` 接手授權流程，再讀 `docs/DEPLOYMENT.md` 查設定細節；不要為了填教材啟用雲端或消耗 AI 額度。
 
 ## 工作範圍
 
@@ -35,3 +35,9 @@
 ## 部署原則
 
 使用部署者自己的 Cloudflare 和 Supabase。遵守使用者既有授權；對已授權的部署不重複詢問。使用安全登入或秘密設定機制，不要求將金鑰貼入聊天、程式或 GitHub issue。未取得服務登入或設定時，保留可運作的本機示範，明確交付待設定項目。
+
+預設採用「使用者在 agent 客戶端完成官方 OAuth，agent 接手建置」；不要把 SQL 操作、公開連線設定和一般驗證交回給使用者。優先重用已連線的 Supabase MCP／connector。登入 Dashboard 不代表 MCP 已連線，MCP OAuth 也不代表 CLI 或 Cloudflare 已授權。
+
+先確認目標專案與授權範圍，再讀取 migrations 與既有結構；遠端建置使用提供的 migration，不重設資料庫、不盲目重複套用、不以新增公開 policy 解決私密表的權限問題。新建專案前取得組織選擇及平台要求的費用確認。
+
+MCP 可取 URL 和 publishable key，不能假設它能取得 server secret 或管理 Auth 使用者。缺少工具時，只請使用者完成必要的安全介面操作，完成後繼續；不從瀏覽器、客戶端或憑證檔擷取 OAuth token。教師 Auth 密碼由本人安全設定，不能直接修改 `auth.users` 建立帳號。

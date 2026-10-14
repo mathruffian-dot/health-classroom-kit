@@ -289,7 +289,7 @@ export async function handleApi(request: Request, ctx: AppContext): Promise<Resp
       return json({
         mode: cloud ? 'supabase' : 'demo',
         aiConfigured: !!env.AI_API_KEY,
-        version: '0.1.0',
+        version: '0.1.1',
       });
     const state = (await store.read()) || (await createState(env));
     if (env.SESSION_SECRET) state.secret = env.SESSION_SECRET;

@@ -1,6 +1,6 @@
 # 可以直接貼給其他 agent 的提示詞
 
-先下載或 clone 本專案並讓 agent 開啟專案資料夾。以下兩個任務分開使用：填教材不需要雲端權限；部署不需要重新製作整套教材。
+先下載或 clone 本專案並讓 agent 開啟專案資料夾。填教材、部署、新增互動各有提示詞；填教材不需要雲端權限，部署不需要重新製作教材。
 
 ## 提示詞一：填入自己的教材
 
@@ -42,17 +42,35 @@ docs/VALIDATION.md、shared/types.ts、schemas/lesson.schema.json 及 content/ �
 ```text
 請協助將這個 Health Classroom Kit 專案部署到我自己的 Cloudflare 和 Supabase。
 授權範圍是本專案的服務設定、必要資料表建立、部署及驗證。
+採用「我登入授權，你接手建置」；請完成可以自動處理的工作，不要把 SQL 和設定作業交回給我。
+Supabase 專案：[已有專案名稱／網址；或請協助建立]
+教師信箱：[填入]
 AI 功能：[先不啟用／使用我指定的供應商與模型]
 公開站名：[填入]
 正式使用範圍：[例如一位教師與一個 40 人班級]
 
-先讀 AGENTS.md、docs/DEPLOYMENT.md、docs/SECURITY.md、docs/BACKUP.md、
+先讀 AGENTS.md、docs/SUPABASE-AGENT-SETUP.md、docs/DEPLOYMENT.md、docs/SECURITY.md、docs/BACKUP.md、
 docs/ARCHITECTURE.md、docs/VALIDATION.md 及目前 wrangler.jsonc、worker/、supabase/。
 依實際程式確認設定名稱，不憑舊版本文件猜測。
 
 先在本機執行 npm ci、npm run check 及 npm run test:e2e，修正阻礙部署的問題。
+優先使用現有 Supabase MCP／connector，引導我在官方頁面完成 OAuth；
+帳密與 MFA 由我本人輸入，不要要求 PAT 或從客戶端擷取 OAuth token。
+確認我指定的專案後，將 MCP 限制在該專案；不要任選帳號內第一個專案。
+如果要建立新專案，先讓我選擇組織、區域並完成平台要求的費用確認。
+已授權的例行建置請繼續執行；如平台強制確認，說明確切原因與要操作的項目。
 確認使用我的雲端專案，為正式環境明確選擇 supabase 模式，停用 public demo。
-使用提供的 migration 建立資料庫，設定教師帳號與存取規則。
+先核對 migrations 與既有結構，再套用提供的遠端 migration；已完成則略過並驗證，
+不要重設資料庫、覆寫既有表或因 advisor 提醒而開放學生直接存取私密資料表。
+設定教師 Auth 帳號與 TEACHER_EMAILS，兩者都要存在；OAuth 管理帳號不是課堂帳號。
+MCP 沒有 Auth 帳號管理工具時，使用已授權的 Dashboard／Admin API，
+否則只引導我完成帳號建立及安全密碼設定，不直接改寫 auth.users。
+若採用邀請建立帳號，我允許寄送啟用／邀請信到上面指定的教師信箱，
+請確認啟用連結可完成設定密碼；本版課堂沒有自製的密碼重設頁。
+自動取得專案 URL、publishable key 並填入設定。
+MCP 不提供 server secret；優先沿用已設定 Secret，若有已授權且可安全傳遞金鑰的工具，
+在封閉本機程序直接送入 Cloudflare Secrets、不輸出值，否則讓我在安全介面輸入一次。
+新部署才生成 SESSION_SECRET，既有部署不要輪替。
 金鑰透過 Cloudflare Secrets／受保護的本機設定輸入，不寫入程式、Git、聊天或日誌。
 若要 AI，只設定相容 provider、模型與伺服器端 key；先用虛構資料做一次有界測試。
 
@@ -66,7 +84,8 @@ docs/ARCHITECTURE.md、docs/VALIDATION.md 及目前 wrangler.jsonc、worker/、s
 - 教師觸控大螢幕可用手指／觸控筆寫白板；學生 iPad 可旋轉、切換背景後恢復。
 
 不要把本機測試說成雲端驗證，不要把 40 人目標說成已通過負載測試。
-最後交付站點連結、服務設定清單（不含秘密）、實測證據、費用／配額注意項目、
+最後依「已授權／已建表／已設定秘密／已建立教師登入／已部署／已通過雲端驗收」
+逐項報告實際狀態，交付站點連結、服務設定清單（不含秘密）、實測證據、費用／配額注意項目、
 剩餘限制與回復方式，更新 docs/VALIDATION.md。若服務設定缺漏，保留可用示範，
 列出確切缺漏與已完成項目，不要自動降級成公開 demo。
 ```
